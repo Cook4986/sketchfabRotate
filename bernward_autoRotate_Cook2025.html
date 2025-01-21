@@ -1,0 +1,142 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sketchfab Embed: Auto-Rotation without UI and Fullscreen</title>
+    <style>
+        /* Style the container to position iframe and button */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden; /* Prevent scrolling */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #f0f0f0; /* Optional: Background color */
+            font-family: Arial, sans-serif;
+        }
+
+        /* Style the iframe */
+        #sketchfab-embed {
+            width: 80vw;  /* 80% of viewport width */
+            height: 80vh; /* 80% of viewport height */
+            border: none; /* Remove border */
+            box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Optional: Add shadow */
+        }
+
+        /* Style the fullscreen button */
+        #fullscreen-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        #fullscreen-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Optional: Hide the button in fullscreen */
+        :fullscreen #fullscreen-btn {
+            display: none;
+        }
+
+        /* Style the page title */
+        h1 {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            color: #333;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Bernward Column</h1>
+    
+    <!-- Iframe Embed with Autospin and All UI Elements Disabled -->
+    <iframe 
+        id="sketchfab-embed" 
+        src="https://sketchfab.com/models/87d72808b9c94b7e8fe085dff8b344e4/embed?autostart=1&autospin=.1
+&ui_stop=0
+&ui_annotations=0
+&ui_controls=0
+&ui_fadeout=0
+&ui_fullscreen=0
+&ui_general_controls=0
+&ui_help=0
+&ui_hint=0
+&ui_infos=0
+&ui_inspector=0
+&ui_loading=0
+&ui_settings=0
+&ui_start=0
+&ui_vr=0
+&ui_ar=0
+&ui_ar_help=0
+&ui_ar_qrcode=0
+&ui_watermark=0" 
+        frameborder="0" 
+        allow="autoplay; fullscreen; xr-spatial-tracking" 
+        allowfullscreen>
+    </iframe>
+    
+    <!-- External Fullscreen Button -->
+    <button id="fullscreen-btn">Enter Fullscreen</button>
+    
+    <script type="text/javascript">
+        // Get the fullscreen button and the iframe
+        var fullscreenBtn = document.getElementById('fullscreen-btn');
+        var iframe = document.getElementById('sketchfab-embed');
+
+        // Function to toggle fullscreen
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                if (iframe.requestFullscreen) {
+                    iframe.requestFullscreen();
+                } else if (iframe.mozRequestFullScreen) { // Firefox
+                    iframe.mozRequestFullScreen();
+                } else if (iframe.webkitRequestFullscreen) { // Chrome, Safari and Opera
+                    iframe.webkitRequestFullscreen();
+                } else if (iframe.msRequestFullscreen) { // IE/Edge
+                    iframe.msRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        // Add click event listener to the button
+        fullscreenBtn.addEventListener('click', toggleFullscreen);
+
+        // Optional: Change button text based on fullscreen state
+        document.addEventListener('fullscreenchange', () => {
+            if (document.fullscreenElement) {
+                fullscreenBtn.textContent = 'Exit Fullscreen';
+            } else {
+                fullscreenBtn.textContent = 'Enter Fullscreen';
+            }
+        });
+
+        // Handle ESC key to exit fullscreen and update button text
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && document.fullscreenElement) {
+                fullscreenBtn.textContent = 'Enter Fullscreen';
+            }
+        });
+    </script>
+</body>
+</html>
